@@ -6,3 +6,15 @@ build/
 .DS_Store
 *.tsbuildinfo
 next-env.d.ts
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+instance/
+.pytest_cache/
