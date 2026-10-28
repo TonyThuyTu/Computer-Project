@@ -26,6 +26,7 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=development
+      - CI=true
       - NEXT_PUBLIC_API_URL=http://localhost:5000
     volumes:
       - ./fe:/app

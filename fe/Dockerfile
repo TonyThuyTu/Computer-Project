@@ -6,7 +6,10 @@ WORKDIR /app
 RUN npm install -g pnpm@11.3.0
 
 # Copy các file quản lý dependency
-COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml* ./
+COPY package.json pnpm-lock.yaml* pnpm-workspace.yaml* .npmrc* ./
+
+# Biến môi trường CI để pnpm không hỏi TTY confirmation
+ENV CI=true
 
 # Cài đặt dependencies
 RUN pnpm install
