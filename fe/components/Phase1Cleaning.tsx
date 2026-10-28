@@ -1,16 +1,24 @@
-import React from "react";
-import { Database, CheckCircle2, Layers } from "lucide-react";
+import React, { useState } from "react";
+import { Database, CheckCircle2, Layers, FileText } from "lucide-react";
 import { Card } from "./ui/Card";
 import { SectionHeading } from "./ui/SectionHeading";
 import { Pill } from "./ui/Pill";
+import { Stage1Modal } from "./evidence/Stage1Modal";
 import type { CleaningResult } from "@/app/types";
 
 interface Phase1CleaningProps {
   cleaning: CleaningResult;
   alpha: number;
+  cleanedData?: { x: number; y: number }[];
 }
 
-export function Phase1Cleaning({ cleaning, alpha }: Phase1CleaningProps) {
+export function Phase1Cleaning({
+  cleaning,
+  alpha,
+  cleanedData = [],
+}: Phase1CleaningProps) {
+  const [isEvidenceOpen, setIsEvidenceOpen] = useState(false);
+
   return (
     <section id="phase-1-cleaning">
       <SectionHeading
@@ -18,6 +26,19 @@ export function Phase1Cleaning({ cleaning, alpha }: Phase1CleaningProps) {
         stepNumber="Giai đoạn 1"
         title="Làm sạch dữ liệu & Mẫu nghiên cứu (Câu 1 & 2)"
         subtitle="Sàng lọc dữ liệu thô, loại bỏ các dòng thiếu thông tin, trùng lặp hoặc ngoài thang điểm [0, 10]"
+        action={
+          <button
+            type="button"
+            onClick={() => setIsEvidenceOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface hover:bg-active border border-border hover:border-accent/50 text-text font-medium text-[12.5px] rounded-md transition-all shadow-2xs group cursor-pointer"
+          >
+            <FileText
+              size={14}
+              className="text-accent group-hover:scale-105 transition-transform"
+            />
+            <span>Xem chi tiết & Bằng chứng</span>
+          </button>
+        }
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -59,13 +80,22 @@ export function Phase1Cleaning({ cleaning, alpha }: Phase1CleaningProps) {
       <div className="flex flex-wrap items-center gap-2.5 mt-3">
         <Pill variant="positive">
           <CheckCircle2 size={13} className="mr-1.5" />
-          Độ tin cậy {cleaning.confidence_level.toFixed(0)}% (α = {alpha})
+          Độ tin cậy 95% (α = 0.05)
         </Pill>
         <Pill variant="neutral">
           <Layers size={13} className="mr-1.5" />
           Nguyên tắc: Không tự ý loại ngoại lệ khi chưa có căn cứ
         </Pill>
       </div>
+
+      {/* Modal Bằng chứng & Đối đáp phản biện cho Giai đoạn 1 */}
+      <Stage1Modal
+        isOpen={isEvidenceOpen}
+        onClose={() => setIsEvidenceOpen(false)}
+        cleaning={cleaning}
+        alpha={alpha}
+        cleanedData={cleanedData}
+      />
     </section>
   );
 }

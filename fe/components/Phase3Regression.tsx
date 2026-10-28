@@ -1,5 +1,5 @@
-import React from "react";
-import { TrendingUp, Target, Sparkles } from "lucide-react";
+import React, { useState } from "react";
+import { TrendingUp, Target, Sparkles, FileText } from "lucide-react";
 import {
   ScatterChart,
   Scatter,
@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { Card } from "./ui/Card";
 import { SectionHeading } from "./ui/SectionHeading";
+import { Stage3Modal } from "./evidence/Stage3Modal";
 import type { RegressionResult } from "@/app/types";
 
 interface Phase3RegressionProps {
@@ -27,6 +28,8 @@ export function Phase3Regression({
   setPredictXInput,
   livePredictedY,
 }: Phase3RegressionProps) {
+  const [isEvidenceOpen, setIsEvidenceOpen] = useState(false);
+
   return (
     <section id="phase-3-regression">
       <SectionHeading
@@ -34,6 +37,19 @@ export function Phase3Regression({
         stepNumber="Giai đoạn 3"
         title="Mô hình Hồi quy Tuyến tính Đơn & Chẩn đoán (Câu 5, 6, 7, 8)"
         subtitle="Xây dựng phương trình dự đoán, đánh giá chất lượng mô hình và khảo sát phần dư"
+        action={
+          <button
+            type="button"
+            onClick={() => setIsEvidenceOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface hover:bg-active border border-border hover:border-accent/50 text-text font-medium text-[12.5px] rounded-md transition-all shadow-2xs group cursor-pointer"
+          >
+            <FileText
+              size={14}
+              className="text-accent group-hover:scale-105 transition-transform"
+            />
+            <span>Xem chi tiết & Bằng chứng</span>
+          </button>
+        }
       />
 
       {/* Equation Banner */}
@@ -371,6 +387,13 @@ export function Phase3Regression({
           </div>
         </Card>
       </div>
+
+      {/* Modal Bằng chứng & Đối đáp phản biện cho Giai đoạn 3 */}
+      <Stage3Modal
+        isOpen={isEvidenceOpen}
+        onClose={() => setIsEvidenceOpen(false)}
+        regression={regression}
+      />
     </section>
   );
 }

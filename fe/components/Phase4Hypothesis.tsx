@@ -1,7 +1,8 @@
-import React from "react";
-import { TestTubes, CheckCircle2, XCircle } from "lucide-react";
+import React, { useState } from "react";
+import { TestTubes, CheckCircle2, XCircle, FileText } from "lucide-react";
 import { Card } from "./ui/Card";
 import { SectionHeading } from "./ui/SectionHeading";
+import { Stage4Modal } from "./evidence/Stage4Modal";
 import type { HypothesisTestResult } from "@/app/types";
 
 interface Phase4HypothesisProps {
@@ -9,6 +10,9 @@ interface Phase4HypothesisProps {
   slopeTest: HypothesisTestResult;
   alpha: number;
   mu0: number;
+  meanY?: number;
+  stdY?: number;
+  n?: number;
 }
 
 export function Phase4Hypothesis({
@@ -16,7 +20,12 @@ export function Phase4Hypothesis({
   slopeTest,
   alpha,
   mu0,
+  meanY,
+  stdY,
+  n,
 }: Phase4HypothesisProps) {
+  const [isEvidenceOpen, setIsEvidenceOpen] = useState(false);
+
   return (
     <section id="phase-4-hypothesis">
       <SectionHeading
@@ -24,6 +33,19 @@ export function Phase4Hypothesis({
         stepNumber="Giai đoạn 4"
         title="Suy luận Thống kê & Kiểm định Giả thuyết (Câu 9 – 12)"
         subtitle="Kiểm định ý nghĩa thống kê của trung bình điểm cuối kỳ và hệ số góc mô hình hồi quy"
+        action={
+          <button
+            type="button"
+            onClick={() => setIsEvidenceOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface hover:bg-active border border-border hover:border-accent/50 text-text font-medium text-[12.5px] rounded-md transition-all shadow-2xs group cursor-pointer"
+          >
+            <FileText
+              size={14}
+              className="text-accent group-hover:scale-105 transition-transform"
+            />
+            <span>Xem chi tiết & Bằng chứng</span>
+          </button>
+        }
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
@@ -45,6 +67,19 @@ export function Phase4Hypothesis({
           alpha={alpha}
         />
       </div>
+
+      {/* Modal Bằng chứng & Đối đáp phản biện cho Giai đoạn 4 */}
+      <Stage4Modal
+        isOpen={isEvidenceOpen}
+        onClose={() => setIsEvidenceOpen(false)}
+        meanTest={meanTest}
+        slopeTest={slopeTest}
+        alpha={alpha}
+        mu0={mu0}
+        meanY={meanY}
+        stdY={stdY}
+        n={n}
+      />
     </section>
   );
 }

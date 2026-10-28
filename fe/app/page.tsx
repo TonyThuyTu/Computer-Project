@@ -186,7 +186,11 @@ export default function Dashboard() {
         {result && (
           <div className="space-y-8 animate-fadeIn" id="results-area">
             {/* Giai đoạn 1: Làm sạch dữ liệu & Mẫu */}
-            <Phase1Cleaning cleaning={result.cleaning} alpha={alpha} />
+            <Phase1Cleaning
+              cleaning={result.cleaning}
+              alpha={alpha}
+              cleanedData={result.regression.scatter_data}
+            />
 
             {/* Giai đoạn 2: Thống kê mô tả & So sánh phân phối */}
             <Phase2Descriptive descriptive={result.descriptive} />
@@ -205,6 +209,9 @@ export default function Dashboard() {
               slopeTest={result.hypothesis.slope_test}
               alpha={alpha}
               mu0={mu0}
+              meanY={result.descriptive.y.mean}
+              stdY={result.descriptive.y.std_dev}
+              n={result.descriptive.y.n}
             />
           </div>
         )}

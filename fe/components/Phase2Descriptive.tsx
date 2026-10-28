@@ -1,7 +1,8 @@
-import React from "react";
-import { BarChart3, Info, CheckCircle2 } from "lucide-react";
+import React, { useState } from "react";
+import { BarChart3, Info, CheckCircle2, FileText } from "lucide-react";
 import { Card } from "./ui/Card";
 import { SectionHeading } from "./ui/SectionHeading";
+import { Stage2Modal } from "./evidence/Stage2Modal";
 import type { DescriptiveStats } from "@/app/types";
 
 interface Phase2DescriptiveProps {
@@ -12,6 +13,8 @@ interface Phase2DescriptiveProps {
 }
 
 export function Phase2Descriptive({ descriptive }: Phase2DescriptiveProps) {
+  const [isEvidenceOpen, setIsEvidenceOpen] = useState(false);
+
   const statRows = [
     {
       label: "Cỡ mẫu (n)",
@@ -72,6 +75,19 @@ export function Phase2Descriptive({ descriptive }: Phase2DescriptiveProps) {
         stepNumber="Giai đoạn 2"
         title="Thống kê Mô tả & So sánh Phân phối (Câu 3 & 4)"
         subtitle="Đối chiếu phân phối tập trung và độ phân tán giữa Điểm Giữa Kỳ (X) và Điểm Cuối Kỳ (Y)"
+        action={
+          <button
+            type="button"
+            onClick={() => setIsEvidenceOpen(true)}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface hover:bg-active border border-border hover:border-accent/50 text-text font-medium text-[12.5px] rounded-md transition-all shadow-2xs group cursor-pointer"
+          >
+            <FileText
+              size={14}
+              className="text-accent group-hover:scale-105 transition-transform"
+            />
+            <span>Xem chi tiết & Bằng chứng</span>
+          </button>
+        }
       />
 
       <Card>
@@ -174,6 +190,13 @@ export function Phase2Descriptive({ descriptive }: Phase2DescriptiveProps) {
           </div>
         </div>
       </Card>
+
+      {/* Modal Bằng chứng & Đối đáp phản biện cho Giai đoạn 2 */}
+      <Stage2Modal
+        isOpen={isEvidenceOpen}
+        onClose={() => setIsEvidenceOpen(false)}
+        descriptive={descriptive}
+      />
     </section>
   );
 }
