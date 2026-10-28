@@ -127,7 +127,7 @@ export default function Dashboard() {
 
           <div className="flex items-center gap-2 self-start md:self-auto">
             <span className="text-[12px] text-muted bg-surface border border-border px-3 py-1.5 rounded-md font-medium">
-              Đồ án Thống kê MAS • 4 Giai đoạn
+              Thống kê MAS • 4 Giai đoạn
             </span>
           </div>
         </div>
@@ -213,7 +213,7 @@ export default function Dashboard() {
       {/* Footer */}
       <footer className="border-t border-border mt-12 py-6 text-center text-[12px] text-muted">
         <p>
-          Đồ án Thống kê Ứng dụng (MAS) — Phân tích Hồi quy Tuyến tính Đơn &amp;
+          Thống kê Ứng dụng (MAS) — Phân tích Hồi quy Tuyến tính Đơn &amp;
           Kiểm định Giả thuyết
         </p>
         <p className="text-faint mt-1">
