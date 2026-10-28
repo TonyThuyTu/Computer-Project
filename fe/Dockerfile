@@ -17,11 +17,14 @@ RUN pnpm install
 # Copy toàn bộ mã nguồn frontend
 COPY . .
 
-# Biến môi trường bind IP ra toàn bộ mạng container
-ENV PORT=3000
+# Build production bundle trước (giảm RAM xuống <80MB, tránh OOM crash và lỗi 502 trên Render)
+ENV NODE_ENV=production
+ENV NEXT_PUBLIC_API_URL=https://computer-project-be.onrender.com
+RUN pnpm build
+
 ENV HOSTNAME="0.0.0.0"
 
 EXPOSE 3000
 
-# Chạy Next.js ở chế độ phát triển
-CMD ["pnpm", "dev", "--hostname", "0.0.0.0"]
+# Chạy Next.js ở chế độ production với cổng linh hoạt theo $PORT của Render (hoặc 3000)
+CMD ["sh", "-c", "pnpm start --hostname 0.0.0.0 --port ${PORT:-3000}"]
